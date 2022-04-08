@@ -6,6 +6,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import NavLayout from "./layouts/NavLayout";
 import Login from "./components/Login";
 import Profile from "./components/Profile";
+import _ from './utils/main'
 
 const App: React.FC = () => {
   return (

@@ -1,13 +1,10 @@
 import axios from "axios";
 
 export default class UserService {
-  readonly url: string = 'http://localhost:5001/users?email=surtest@furl.net&password=4MAWvh63HQU9';
+  readonly url: string = "http://localhost:5001";
 
-  constructor(){
-  
+  constructor() {}
+  getUser(email: string, password: string) {
+    return axios.get(this.url + `/users?email=${email}&password=${password}`);
   }
-  async getUser(email: string,password: string) {
-    return await axios.get(this.url)
-  }
-    
 }

@@ -1,9 +1,13 @@
 import AuthLayout from "../layouts/AuthLayout";
 import Image from "../assets/authbg.svg";
 import Logo from "../logo.svg";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "./base/Button";
 import { useNavigate } from "react-router-dom";
+import UserService from "../services/user.service";
+// import _ from '../utils/main'
+const userDb = new UserService();
+
 const leftPanelStyle: React.CSSProperties = {
   width:'100%',
   maxWidth:'456px',
@@ -31,15 +35,25 @@ const Login: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
+  useEffect(()=> {
+
+  },[])
+
+
+
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setEmail(e.target.value);
   }
   const handlePassword = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setPassword(e.target.value);
   }
-  const handleSubmit = (e: React.ChangeEvent<HTMLButtonElement>): void => {
-    e.preventDefault();
-    console.log(e);
+  const handleSubmit = (): void => {
+   userDb.getUser(email,password).then( ({ data }) => {
+      console.log(data);
+      if(!data.isEmpty()){
+        navigate('/profile')
+      }
+   })
   }
 
   return (
@@ -63,7 +77,7 @@ const Login: React.FC = () => {
             <input type='text' value={email} onChange={handleEmail}/>
             <p>Password</p>
             <input type='password' value={password} onChange={handlePassword} className='mb-5' />
-            <Button text="Login" cstyle='green' onClick={() => navigate('/login')} style={{maxWidth:'100%'}}/>
+            <Button text="Login" cstyle='green' onClick={handleSubmit} style={{maxWidth:'100%'}}/>
         </div>
       </div>
     </div>
