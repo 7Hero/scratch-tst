@@ -56,7 +56,7 @@ const Login: React.FC = () => {
       if (msg.error) {
         setError({ error: true, style: { color: "red", borderColor: "red" } });
       } else {
-        localStorage.logged = msg.data;
+        localStorage.logged = JSON.stringify(msg.data);
         navigate("/profile");
       }
     });
