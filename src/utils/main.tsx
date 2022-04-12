@@ -4,5 +4,5 @@ declare global {
   }
 }
 export default Array.prototype.isEmpty = function() {
-  return this.length === 0 ? true : false; 
+  return this?.length == 0 ? true : false; 
 }

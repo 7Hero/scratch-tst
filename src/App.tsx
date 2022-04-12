@@ -7,10 +7,11 @@ import NavLayout from "./layouts/NavLayout";
 import Login from "./components/Login";
 import Profile from "./components/Profile";
 import _ from './utils/main'
+_();
 
 const App: React.FC = () => {
   return (
-    <div className="App">
+    <div className="App font-sans">
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="login" element={<Login />} />

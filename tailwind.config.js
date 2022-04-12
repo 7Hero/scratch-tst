@@ -6,8 +6,8 @@ module.exports = {
   ],
   theme: {
     screens:{
-      'sm': {'max': '639px'},
-      'md': {'max': '770px'}
+      'md': {'max': '770px'},
+      'sm': {'max': '540px'},
     },
     colors:{
       'green':'#30BE76',
