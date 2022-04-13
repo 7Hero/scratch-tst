@@ -9,4 +9,15 @@ export default class UserService {
   getProfile(id: string) {
     return axios.get(this.url + `/profiles/?id=${id}`);
   }
+  getUserPosts(post_id: string) {
+    return axios.get(this.url + `/user_posts/${post_id}`);
+  }
+}
+
+let cachedClient: UserService | null = null;
+
+export function userAPI(){
+  if(cachedClient) return cachedClient
+  cachedClient = new UserService();
+  return cachedClient;
 }
