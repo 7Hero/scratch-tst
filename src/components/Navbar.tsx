@@ -2,8 +2,11 @@ import React from "react";
 import Logo from "../logo.svg";
 import Search from "../assets/search.svg";
 import { MessageIcon, RecipeIcon } from "../assets";
-const Navbar: React.FC = () => {
-  const user = JSON.parse(localStorage.logged)
+
+interface IProps {
+  user: any;
+}
+const Navbar: React.FC<IProps> = ({user}) => {
   
   return (
     <div className="h-20 bg-white flex px-24 items-center">

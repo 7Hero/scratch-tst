@@ -41,7 +41,7 @@ const AuthLayout: React.FC<IProps> = ({ children }) => {
           }}
           className="rounded-br-[110px]"
         ></div>
-        <div className="absolute top-[60px]">
+        <div className="absolute top-[80px]">
           <img src={Logo} className="sm:ml-8 hidden sm:block" />
           <p className="text-2xl font-bold hidden md:block mx-auto sm:mr-auto sm:ml-8 mt-[30px]">
             Welcome Back!

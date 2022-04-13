@@ -42,8 +42,6 @@ const Login: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<Error>({ error: false, style: {} });
-  const isTablet = useMediaQuery({ query: "(max-width: 760px)" });
-  useEffect(() => {}, []);
 
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setEmail(e.target.value);

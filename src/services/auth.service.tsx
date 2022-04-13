@@ -15,7 +15,7 @@ export default class AuthService {
     if (profile.isEmpty()) {
       return { error: true, message: "Incorect Email or Password." };
     }
-    return { error: false, data: profile[0] };
+    return { error: false, data: {...user[0],...profile[0]}};
   }
 
   signout() {}

@@ -1,12 +1,15 @@
 import { Outlet } from "react-router-dom"
 import Navbar from "../components/Navbar"
 
-const NavLayout = () => {
+interface IProps {
+  user: any;
+}
+const NavLayout: React.FC<IProps> = ({user}) => {
 
 
   return (
     <div style={{backgroundColor:'#F7F8FA', height:'100vh'}}>
-      <Navbar/>
+      <Navbar user={user} />
       <div>
         <Outlet/>
       </div>
