@@ -6,8 +6,8 @@ import { MessageIcon, RecipeIcon } from "../assets";
 interface IProps {
   user: any;
 }
-const Navbar: React.FC<IProps> = ({user}) => {
-  
+const Navbar: React.FC<IProps> = () => {
+  const user = JSON.parse(localStorage.logged)
   return (
     <div className="h-20 bg-white flex px-24 items-center">
       <div className="w-[20%]">

@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { DotIcon } from "../assets";
 import { formatNumbers, timeSince } from "../utils/format";
 import { userAPI } from "../services/user.service";
+import { useSelector } from "react-redux";
+type Link = string;
 interface IProps {
   avatar: string;
   id: number;
@@ -15,8 +17,6 @@ interface IProps {
   post_ID: string;
   likes: string;
 }
-
-type Link = string;
 interface Post {
   id: number;
   title: string;
@@ -34,9 +34,9 @@ const NumberOf: React.FC<{ nr: number; label: string }> = ({ nr, label }) => {
   );
 };
 
-const RecipeCard: React.FC<{recipe: Post, user: IProps }> = ({ recipe, user }: any) => {
+const RecipeCard: React.FC<{recipe: Post, user: IProps }> = ({ recipe, user, }) => {
   return (
-    <div key={recipe.id}>
+    <div className='animate' style={{animationDelay:`${(recipe.id*100)-1200}ms`}}>
       {/*Time card */}
       <div className="flex p-4 space-x-2">
         <img src={user.avatar} className="h-[32px] rounded-full" />
@@ -64,17 +64,32 @@ const RecipeCard: React.FC<{recipe: Post, user: IProps }> = ({ recipe, user }: a
   );
 };
 const client = userAPI();
-const Profile: React.FC<{ user: IProps }> = ({ user }) => {
-  const [posts, setPosts] = useState<Post[]>();
+
+const Profile: React.FC = () => {
+  const [scrollPosition, setScrollPosition] = useState(0);
+  //@ts-ignore
+  const user = useSelector(state => state.user.user)
+  const [posts, setPosts] = useState<Post[]>([]);
   const ref = useRef(null)
   useEffect(() => {
-    client.getUserPosts(user.post_ID).then(({ data }) => setPosts(data.posts));
+    if(localStorage.logged){
+      const usr = JSON.parse(localStorage.logged)
+      client.getUserPosts(usr.post_ID).then(({ data }) => setPosts(data.posts));
+    }
+    // console.log('rerender')
   }, []);
+
+  // useEffect(()=> {
+  //   window.addEventListener('scroll', e => {
+  //     setScrollPosition(window.scrollY)
+  //     console.log(scrollPosition)
+  //   })
+  // },[scrollPosition])
 
   return (
     <div className="mt-[50px] px-24">
       <div className="flex gap-5 justify-center ">
-        <div className="">
+        <div className='top-5' style={{}}>
           <div ref={ref} className="w-full bg-white p-6 min-w-max btn-shadow rounded-lg">
             <div className="flex space-x-4 ">
               <img
@@ -103,11 +118,13 @@ const Profile: React.FC<{ user: IProps }> = ({ user }) => {
             </div>
           </div>
         </div>
-        <div className="w-full max-w-[600px] min-w-[600px]">
-          <div className="w-full p-6 bg-white space-y-5 rounded-lg btn-shadow">
+        {/* Recipes */}
+        {/* @ts-ignore */}
+        <div className="w-full max-w-[600px] min-w-[600px] transition-all duration-500" style={{opacity: posts.length !=0 ? '1' : '0'}}>
+          <div className="w-full p-6 bg-white space-y-5 rounded-lg btn-shadow transition-all">
             {posts?.splice(0, 14).map((el) => {
               return (
-                <RecipeCard user={user} recipe={el} />
+                <RecipeCard user={user} recipe={el} key={el.id} />
               );
             })}
           </div>

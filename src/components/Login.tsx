@@ -6,7 +6,10 @@ import React, { useEffect, useState } from "react";
 import Button from "./base/Button";
 import { useNavigate } from "react-router-dom";
 import AuthService from "../services/auth.service";
+
 import { useMediaQuery } from "react-responsive";
+import { useDispatch } from "react-redux";
+import { getUser } from "../features/userSlice";
 
 const client = new AuthService();
 
@@ -49,12 +52,14 @@ const Login: React.FC = () => {
   const handlePassword = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setPassword(e.target.value);
   };
+  const dispatch = useDispatch()
   const handleSubmit = (): void => {
     client.login(email, password).then((msg) => {
       if (msg.error) {
         setError({ error: true, style: { color: "red", borderColor: "red" } });
       } else {
         localStorage.logged = JSON.stringify(msg.data);
+        dispatch(getUser());
         navigate("/profile");
       }
     });

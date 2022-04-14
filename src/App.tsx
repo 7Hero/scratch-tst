@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import LandingPage from "./components/LandingPage";
 import { Route, Routes } from "react-router-dom";
@@ -6,7 +6,10 @@ import PrivateRoute from "./components/PrivateRoute";
 import NavLayout from "./layouts/NavLayout";
 import Login from "./components/Login";
 import Profile from "./components/Profile";
-import _ from './utils/main'
+import _ from './utils/main';
+import { useDispatch, useSelector } from "react-redux";
+import { getUser } from "./features/userSlice";
+
 _();
 
 interface IUser {
@@ -25,14 +28,22 @@ interface IUser {
 
 
 const App: React.FC = () => {
-  const user: IUser = JSON.parse(localStorage.logged)
+  const dispatch = useDispatch()
+  //@ts-ignore
+  const user = useSelector(state => state.user)
+  useEffect(()=> {
+    if(localStorage.logged){
+      dispatch(getUser())
+    }
+  },[])
   return (
     <div className="App font-sans">
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="login" element={<Login />} />
         <Route path="profile" element={<PrivateRoute element={<NavLayout user={user} />} />}>
-          <Route index element={<Profile user={user} />} />
+          {/*@ts-ignore */}
+          {user ? <Route index element={<Profile user={user} />} /> : null }
         </Route>
       </Routes>
     </div>
