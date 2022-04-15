@@ -42,9 +42,9 @@ const RecipeCard: React.FC<{ recipe: Post; user: IProps }> = ({
   const isTablet = useMediaQuery('(max-width:850px)')
 
   return (
-    <div className="animate md:flex " style={{ animationDelay: `${recipe.id * 100}ms` }}>
+    <div className="animate profile:flex " style={{ animationDelay: `${recipe.id * 100}ms` }}>
       {/*Time card */}
-      <div className="flex p-4 space-x-2 md:hidden">
+      <div className="flex p-4 space-x-2 profile:hidden">
         <img src={user.avatar} className="h-[32px] rounded-full" />
         <div>
           <p className="text-xs text-black">
@@ -54,10 +54,10 @@ const RecipeCard: React.FC<{ recipe: Post; user: IProps }> = ({
         </div>
       </div>
       {/* Background image */}
-      <img src={recipe.image} className="h-44 md:h-[240px] md:w-60 w-full object-cover" />
+      <img src={recipe.image} className="h-44 profile:h-[240px] sm:hidden profile:w-60 w-full object-cover" />
       {/* Everthing else */}
-      <div className="p-5 md:px-5 md:py-0">
-      <div className="p-4 md:px-0 space-x-2 hidden md:flex">
+      <div className="p-5 profile:px-5 profile:py-0">
+      <div className="p-4 profile:px-0 space-x-2 hidden profile:flex">
         <img src={user.avatar} className="h-[32px] rounded-full" />
         <div>
           <p className="text-xs text-black">
@@ -67,7 +67,7 @@ const RecipeCard: React.FC<{ recipe: Post; user: IProps }> = ({
         </div>
       </div>
         <p className="text-lg font-semibold"> {recipe.title}</p>
-        <p className="overflow-hidden line-clamp-2 overflow-ellipsis  md:text-sm text-gray-70" style={{WebkitLineClamp: isTablet ? '4' : '2'}}>
+        <p className="overflow-hidden line-clamp-2 overflow-ellipsis  profile:text-sm text-gray-70" style={{WebkitLineClamp: isTablet ? '4' : '2'}}>
           {" "}
           {recipe.body}{" "}
         </p>
@@ -99,9 +99,9 @@ const Profile: React.FC = () => {
   }, []);
 
   return (
-    <div className="mt-[50px] md:mt-0 px-24 md:px-0">
+    <div className="mt-[50px] profile:mt-0 px-24 profile:px-0">
       <div className="flex gap-5 justify-center ">
-        <div className="md:hidden" style={{}}>
+        <div className="profile:hidden" style={{}}>
           <div
             ref={ref}
             className="w-full bg-white p-6 min-w-max btn-shadow rounded-lg"
@@ -136,16 +136,16 @@ const Profile: React.FC = () => {
         {/* Recipes */}
         {/* @ts-ignore */}
         <div
-          className="w-full max-w-[600px] md:min-w-fit min-w-[600px] transition-all duration-500"
+          className="w-full max-w-[600px] profile:min-w-fit min-w-[600px] transition-all duration-500"
           style={{ opacity: posts.length != 0 ? "1" : "0" }}
         >
-          <div className="w-full p-6 bg-white space-y-5 rounded-lg md:rounded-none btn-shadow transition-all">
+          <div className="w-full p-6 bg-white space-y-5 rounded-lg profile:rounded-none btn-shadow transition-all">
             {posts?.splice(0, 14).map((el) => {
               return <RecipeCard user={user} recipe={el} key={el.id} />;
             })}
           </div>
         </div>
-        <div className="min-w-0  w-full max-w-[310px] md:hidden"></div>
+        <div className="min-w-0  w-full max-w-[310px] profile:hidden"></div>
       </div>
     </div>
   );

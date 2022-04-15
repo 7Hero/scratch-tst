@@ -11,6 +11,7 @@ module.exports = {
     screens:{
       'md': {'max': '850px'},
       'sm': {'max': '540px'},
+      'profile': {'max':'885px'}
     },
     colors:{
       'green':'#30BE76',

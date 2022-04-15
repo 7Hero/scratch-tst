@@ -17,13 +17,6 @@ const Navbar: React.FC<IProps> = () => {
           <img src={Search} />{" "}
         </div>
         <img src={Logo} className='md:hidden' />
-        <div className="flex justify-center border-b border-gray-200 max-w-[460px] w-full md:hidden">
-          <img src={Search} />{" "}
-          <input
-            placeholder="Search Recipe, Profile, or Ingridients"
-            className="border-hidden"
-          ></input>
-        </div>
       </div>
       {/* Search bar */}
       <div className="w-[60%] flex justify-center px-4">
