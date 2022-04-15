@@ -17,7 +17,7 @@ interface IProps {
 }
 
 const AuthLayout: React.FC<IProps> = ({ children }) => {
-  const isTablet = useMediaQuery("(max-width:770px)");
+  const isTablet = useMediaQuery("(max-width:850px)");
   const isMobile = useMediaQuery("(max-width:540px)");
   return (
     <div

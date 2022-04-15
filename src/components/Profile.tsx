@@ -3,6 +3,7 @@ import { DotIcon } from "../assets";
 import { formatNumbers, timeSince } from "../utils/format";
 import { userAPI } from "../services/user.service";
 import { useSelector } from "react-redux";
+import useMediaQuery from "../hooks/useMediaQuery";
 type Link = string;
 interface IProps {
   avatar: string;
@@ -34,11 +35,16 @@ const NumberOf: React.FC<{ nr: number; label: string }> = ({ nr, label }) => {
   );
 };
 
-const RecipeCard: React.FC<{recipe: Post, user: IProps }> = ({ recipe, user, }) => {
+const RecipeCard: React.FC<{ recipe: Post; user: IProps }> = ({
+  recipe,
+  user,
+}) => {
+  const isTablet = useMediaQuery('(max-width:850px)')
+
   return (
-    <div className='animate' style={{animationDelay:`${(recipe.id*100)-1200}ms`}}>
+    <div className="animate md:flex " style={{ animationDelay: `${recipe.id * 100}ms` }}>
       {/*Time card */}
-      <div className="flex p-4 space-x-2">
+      <div className="flex p-4 space-x-2 md:hidden">
         <img src={user.avatar} className="h-[32px] rounded-full" />
         <div>
           <p className="text-xs text-black">
@@ -48,14 +54,28 @@ const RecipeCard: React.FC<{recipe: Post, user: IProps }> = ({ recipe, user, }) 
         </div>
       </div>
       {/* Background image */}
-      <img src={recipe.image} className='h-44 w-full object-cover' />
+      <img src={recipe.image} className="h-44 md:h-[240px] md:w-60 w-full object-cover" />
       {/* Everthing else */}
-      <div className='p-5 '>
-        <p className='text-lg font-semibold'> {recipe.title }</p>
-        <p className='line-clamp-2 overflow-hidden overflow-ellipsis text-gray-70'> {recipe.body} </p>
-        <div className='flex items-center mt-5 text-sm text-gray-50'>
-          <span>{Math.round(Math.random()*100)} Likes</span><img src={DotIcon} className='inline' /><span> {Math.round(Math.random()*30)} Comments</span>
-          <div className='ml-auto border-[1px] border-green text-green px-[10px] py-1 rounded cursor-pointer'>
+      <div className="p-5 md:px-5 md:py-0">
+      <div className="p-4 md:px-0 space-x-2 hidden md:flex">
+        <img src={user.avatar} className="h-[32px] rounded-full" />
+        <div>
+          <p className="text-xs text-black">
+            {user.first_name + " " + user.last_name}
+          </p>
+          <p className="text-xs text-gray-50">{timeSince(recipe.time)}</p>
+        </div>
+      </div>
+        <p className="text-lg font-semibold"> {recipe.title}</p>
+        <p className="overflow-hidden line-clamp-2 overflow-ellipsis  md:text-sm text-gray-70" style={{WebkitLineClamp: isTablet ? '4' : '2'}}>
+          {" "}
+          {recipe.body}{" "}
+        </p>
+        <div className="flex items-center mt-5 text-sm text-gray-50">
+          <span>{Math.round(Math.random() * 100)} Likes</span>
+          <img src={DotIcon} className="inline" />
+          <span> {Math.round(Math.random() * 30)} Comments</span>
+          <div className="ml-auto border-[1px] border-green text-green px-[10px] py-1 rounded cursor-pointer">
             Save
           </div>
         </div>
@@ -68,29 +88,24 @@ const client = userAPI();
 const Profile: React.FC = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
   //@ts-ignore
-  const user = useSelector(state => state.user.user)
+  const user = useSelector((state) => state.user.user);
   const [posts, setPosts] = useState<Post[]>([]);
-  const ref = useRef(null)
+  const ref = useRef(null);
   useEffect(() => {
-    if(localStorage.logged){
-      const usr = JSON.parse(localStorage.logged)
+    if (localStorage.logged) {
+      const usr = JSON.parse(localStorage.logged);
       client.getUserPosts(usr.post_ID).then(({ data }) => setPosts(data.posts));
     }
-    // console.log('rerender')
   }, []);
 
-  // useEffect(()=> {
-  //   window.addEventListener('scroll', e => {
-  //     setScrollPosition(window.scrollY)
-  //     console.log(scrollPosition)
-  //   })
-  // },[scrollPosition])
-
   return (
-    <div className="mt-[50px] px-24">
+    <div className="mt-[50px] md:mt-0 px-24 md:px-0">
       <div className="flex gap-5 justify-center ">
-        <div className='top-5' style={{}}>
-          <div ref={ref} className="w-full bg-white p-6 min-w-max btn-shadow rounded-lg">
+        <div className="md:hidden" style={{}}>
+          <div
+            ref={ref}
+            className="w-full bg-white p-6 min-w-max btn-shadow rounded-lg"
+          >
             <div className="flex space-x-4 ">
               <img
                 src={user.avatar}
@@ -120,18 +135,17 @@ const Profile: React.FC = () => {
         </div>
         {/* Recipes */}
         {/* @ts-ignore */}
-        <div className="w-full max-w-[600px] min-w-[600px] transition-all duration-500" style={{opacity: posts.length !=0 ? '1' : '0'}}>
-          <div className="w-full p-6 bg-white space-y-5 rounded-lg btn-shadow transition-all">
+        <div
+          className="w-full max-w-[600px] md:min-w-fit min-w-[600px] transition-all duration-500"
+          style={{ opacity: posts.length != 0 ? "1" : "0" }}
+        >
+          <div className="w-full p-6 bg-white space-y-5 rounded-lg md:rounded-none btn-shadow transition-all">
             {posts?.splice(0, 14).map((el) => {
-              return (
-                <RecipeCard user={user} recipe={el} key={el.id} />
-              );
+              return <RecipeCard user={user} recipe={el} key={el.id} />;
             })}
           </div>
         </div>
-        <div  className='min-w-0  w-full max-w-[310px]'>
-
-        </div>
+        <div className="min-w-0  w-full max-w-[310px] md:hidden"></div>
       </div>
     </div>
   );
