@@ -39,7 +39,7 @@ const RecipeCardMobile: React.FC<{ recipe: IPost; user: IUser }> = ({
       <img alt='Recipe' src={recipe.image} className="h-44 w-full object-cover" />
       {/* Everthing else */}
       <div className="p-5 profile:px-5 profile:py-0">
-        <div className='flex justify-between'> 
+        <div className='flex justify-between mt-3'> 
         <p className="text-lg font-semibold"> {recipe.title}</p>
         <img src={HeartIcon} alt='like' />
         </div>
