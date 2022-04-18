@@ -29,7 +29,7 @@ const AuthLayout: React.FC<IProps> = ({ children }) => {
           ? `linear-gradient(to top,#FFF, rgba(117, 19, 93, 0)),url(${ImageTablet})`
           : `linear-gradient(to top,#FFF, rgba(117, 19, 93, 0)),url(${Image})`,
       }}
-      className="bg-gradient-to-t from-white to-transparent font-sans"
+      className="bg-gradient-to-t from-white to-transparent font-sans sm:bg-white"
     >
       <div className='hidden sm:block'>
         <div

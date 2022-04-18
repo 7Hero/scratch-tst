@@ -37,7 +37,7 @@ const App: React.FC = () => {
     }
   },[])
   return (
-    <div className="App font-sans">
+    <div className="App font-sans sm:bg-white sm:overflow-hidden">
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="login" element={<Login />} />
