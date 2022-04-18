@@ -1,13 +1,11 @@
 import AuthLayout from "../layouts/AuthLayout";
 import Image from "../assets/authbg.svg";
-import Image1 from "../assets/bg-tablet.png";
 import Logo from "../logo.svg";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Button from "./base/Button";
 import { useNavigate } from "react-router-dom";
 import AuthService from "../services/auth.service";
 
-import { useMediaQuery } from "react-responsive";
 import { useDispatch } from "react-redux";
 import { getUser } from "../features/userSlice";
 
@@ -31,13 +29,6 @@ const leftPanelStyle = {
   alignItems: "center",
 };
 
-const inputStyle: React.CSSProperties = {
-  padding: "10px 10px 10px 5px",
-  display: "block",
-  width: "100%",
-  border: "none",
-  borderBottom: "1px solid #757575",
-};
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -67,15 +58,15 @@ const Login: React.FC = () => {
 
   return (
     <AuthLayout>
-      <div className="h-screen flex font-sans md:flex-col">
-        <img src={Logo} className="md:mx-auto sm:mr-auto sm:ml-8 hidden md:block mt-[80px] sm:hidden" />
+      <div className="h-screen flex font-sans md:flex-col sm:overflow-hidden">
+        <img src={Logo} className="md:mx-auto sm:mr-auto sm:ml-8 hidden md:block mt-[80px] sm:hidden" alt='logo'/>
         <p className="text-2xl font-bold hidden md:block mx-auto mt-[40px] sm:ml-8 sm:hidden">
           Welcome Back!
         </p>
         <div className="my-auto md:mt-[36px] flex w-full justify-center">
           {/* Left Panel */}
           <div style={leftPanelStyle} className="md:hidden flex">
-            <img src={Logo} className="scale-150" />
+            <img src={Logo} className="scale-150" alt='logo'/>
           </div>
           {/* Right Panel */}{" "}
           <div className="w-[425px] min-w-[300px] bg-white p-16 sm:p-8">

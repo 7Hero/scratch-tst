@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import LandingPage from "./components/LandingPage";
 import { Route, Routes } from "react-router-dom";
@@ -12,19 +12,6 @@ import { getUser } from "./features/userSlice";
 
 _();
 
-interface IUser {
-  avatar: string;
-  id: number;
-  first_name: string;
-  last_name: string;
-  job_title: string;
-  followers: string;
-  posts: string;
-  password: string;
-  email: string;
-  post_ID: string;
-  likes: string;
-}
 
 
 const App: React.FC = () => {
@@ -35,9 +22,9 @@ const App: React.FC = () => {
     if(localStorage.logged){
       dispatch(getUser())
     }
-  },[])
+  },[dispatch])
   return (
-    <div className="App font-sans sm:bg-white sm:overflow-hidden">
+    <div className="App font-sans sm:bg-white">
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="login" element={<Login />} />

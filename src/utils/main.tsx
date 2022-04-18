@@ -1,8 +1,9 @@
 declare global {
+//@ts-ignore
   interface Array<T> {
     isEmpty(): boolean;
   }
 }
 export default Array.prototype.isEmpty = function() {
-  return this?.length == 0 ? true : false; 
+  return this?.length === 0 ? true : false; 
 }

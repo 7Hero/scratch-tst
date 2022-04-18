@@ -19,7 +19,7 @@ const LandingPage: React.FC = () => {
     <div style={containerStyle}>
       <div className="md:mx-4 md:text-center mx-24 mt-20">
         {/* Logo */}
-        <img src={logo} className='md:m-auto' />
+        <img src={logo} className='md:m-auto' alt='logo'/>
         {/* Text*/}
         <div className="mt-24 max-w-[505px] font-sans md:mx-auto">
           <p className="font-semibold text-4xl text-black flex">

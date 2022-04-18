@@ -35,17 +35,16 @@ const NumberOf: React.FC<{ nr: number; label: string }> = ({ nr, label }) => {
   );
 };
 
-const RecipeCard: React.FC<{ recipe: Post; user: IProps }> = ({
+const RecipeCardMobile: React.FC<{ recipe: Post; user: IProps }> = ({
   recipe,
   user,
 }) => {
-  const isTablet = useMediaQuery('(max-width:850px)')
 
   return (
-    <div className="animate profile:flex " style={{ animationDelay: `${recipe.id * 100}ms` }}>
+    <div className="animate" style={{ animationDelay: `${recipe.id * 10}ms` }}>
       {/*Time card */}
-      <div className="flex p-4 space-x-2 profile:hidden">
-        <img src={user.avatar} className="h-[32px] rounded-full" />
+      <div className="flex p-4 space-x-2">
+        <img alt={user.first_name} src={user.avatar} className="h-[32px] rounded-full" />
         <div>
           <p className="text-xs text-black">
             {user.first_name + " " + user.last_name}
@@ -54,11 +53,60 @@ const RecipeCard: React.FC<{ recipe: Post; user: IProps }> = ({
         </div>
       </div>
       {/* Background image */}
-      <img src={recipe.image} className="h-44 profile:h-[240px] sm:hidden profile:w-60 w-full object-cover" />
+      <img alt='Recipe' src={recipe.image} className="h-44 w-full object-cover" />
       {/* Everthing else */}
       <div className="p-5 profile:px-5 profile:py-0">
       <div className="p-4 profile:px-0 space-x-2 hidden profile:flex">
-        <img src={user.avatar} className="h-[32px] rounded-full" />
+        <img alt='' src={user.avatar} className="h-[32px] rounded-full" />
+        <div>
+          <p className="text-xs text-black">
+            {user.first_name + " " + user.last_name}
+          </p>
+          <p className="text-xs text-gray-50">{timeSince(recipe.time)}</p>
+        </div>
+      </div>
+        <p className="text-lg font-semibold"> {recipe.title}</p>
+        <p className="overflow-hidden line-clamp-2 overflow-ellipsis  profile:text-sm text-gray-70">
+          {" "}
+          {recipe.body}{" "}
+        </p>
+        <div className="flex items-center mt-5 text-sm text-gray-50">
+          <span>{Math.round(Math.random() * 100)} Likes</span>
+          <img alt='something' src={DotIcon} className="inline" />
+          <span> {Math.round(Math.random() * 30)} Comments</span>
+          <div className="ml-auto border-[1px] border-green text-green px-[10px] py-1 rounded cursor-pointer">
+            Save
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const RecipeCard: React.FC<{ recipe: Post; user: IProps }> = ({
+  recipe,
+  user,
+}) => {
+  const isTablet = useMediaQuery('(max-width:850px)')
+
+  return (
+    <div className="animate profile:flex " style={{ animationDelay: `${recipe.id * 10}ms` }}>
+      {/*Time card */}
+      <div className="flex p-4 space-x-2 profile:hidden">
+        <img alt='something' src={user.avatar} className="h-[32px] rounded-full" />
+        <div>
+          <p className="text-xs text-black">
+            {user.first_name + " " + user.last_name}
+          </p>
+          <p className="text-xs text-gray-50">{timeSince(recipe.time)}</p>
+        </div>
+      </div>
+      {/* Background image */}
+      <img alt='something' src={recipe.image} className="h-44 profile:h-[240px] sm:hidden profile:w-60 w-full object-cover" />
+      {/* Everthing else */}
+      <div className="p-5 profile:px-5 profile:py-0">
+      <div className="p-4 profile:px-0 space-x-2 hidden profile:flex">
+        <img alt='something' src={user.avatar} className="h-[32px] rounded-full" />
         <div>
           <p className="text-xs text-black">
             {user.first_name + " " + user.last_name}
@@ -73,7 +121,7 @@ const RecipeCard: React.FC<{ recipe: Post; user: IProps }> = ({
         </p>
         <div className="flex items-center mt-5 text-sm text-gray-50">
           <span>{Math.round(Math.random() * 100)} Likes</span>
-          <img src={DotIcon} className="inline" />
+          <img alt='something' src={DotIcon} className="inline" />
           <span> {Math.round(Math.random() * 30)} Comments</span>
           <div className="ml-auto border-[1px] border-green text-green px-[10px] py-1 rounded cursor-pointer">
             Save
@@ -86,7 +134,7 @@ const RecipeCard: React.FC<{ recipe: Post; user: IProps }> = ({
 const client = userAPI();
 
 const Profile: React.FC = () => {
-  const [scrollPosition, setScrollPosition] = useState(0);
+  const isMobile = useMediaQuery('(max-width:640px)')
   //@ts-ignore
   const user = useSelector((state) => state.user.user);
   const [posts, setPosts] = useState<Post[]>([]);
@@ -104,10 +152,10 @@ const Profile: React.FC = () => {
         <div className="profile:hidden" style={{}}>
           <div
             ref={ref}
-            className="w-full bg-white p-6 min-w-max btn-shadow rounded-lg"
+            className="w-full bg-white p-6 min-w-max rounded-lg"
           >
             <div className="flex space-x-4 ">
-              <img
+              <img alt='something'
                 src={user.avatar}
                 width="70px"
                 height="70px"
@@ -120,7 +168,7 @@ const Profile: React.FC = () => {
                 <p className="whitespace-nowrap">{user.job_title}</p>
                 <p className="text-sm">
                   {formatNumbers(parseInt(user.followers))}k followers
-                  <img className="inline" src={DotIcon} />
+                  <img alt='something' className="inline" src={DotIcon} />
                   {formatNumbers(parseInt(user.likes))}k likes
                 </p>
               </div>
@@ -135,20 +183,37 @@ const Profile: React.FC = () => {
         </div>
         {/* Recipes */}
         {/* @ts-ignore */}
+        {
+        isMobile ? <MobileRecipe posts={posts} user={user} /> : 
         <div
           className="w-full max-w-[600px] profile:min-w-fit min-w-[600px] transition-all duration-500"
-          style={{ opacity: posts.length != 0 ? "1" : "0" }}
+          style={{ opacity: posts.length !== 0 ? "1" : "0" }}
         >
-          <div className="w-full p-6 bg-white space-y-5 rounded-lg profile:rounded-none btn-shadow transition-all">
+          <div className="w-full p-6 bg-white space-y-5 rounded-lg profile:rounded-none transition-all btn-shadow sm:filter-none">
             {posts?.splice(0, 14).map((el) => {
               return <RecipeCard user={user} recipe={el} key={el.id} />;
             })}
           </div>
         </div>
+        }
         <div className="min-w-0  w-full max-w-[310px] profile:hidden"></div>
       </div>
     </div>
   );
 };
 
+const MobileRecipe = ({posts, user}:{ posts: Post[], user: any }) => {
+  return (
+    <div
+          className="w-full max-w-[600px] profile:min-w-fit min-w-[600px] transition-all duration-500"
+          style={{ opacity: posts.length !== 0 ? "1" : "0" }}
+        >
+          <div className="w-full p-6 bg-white space-y-5 transition-all btn-shadow sm:filter-none">
+            {posts?.splice(0, 14).map((el) => {
+              return <RecipeCardMobile user={user} recipe={el} key={el.id} />;
+            })}
+          </div>
+        </div>
+  )
+}
 export default Profile;

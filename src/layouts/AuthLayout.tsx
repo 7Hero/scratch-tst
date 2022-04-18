@@ -1,7 +1,6 @@
 import Image from "../assets/loginbg.png";
 import ImageTablet from "../assets/bg-tablet.png";
 import Logo from "../logo.svg";
-import { useEffect } from "react";
 import useMediaQuery from "../hooks/useMediaQuery";
 
 const containerStyle: React.CSSProperties = {
@@ -42,7 +41,7 @@ const AuthLayout: React.FC<IProps> = ({ children }) => {
           className="rounded-br-[110px]"
         ></div>
         <div className="absolute top-[80px]">
-          <img src={Logo} className="sm:ml-8 hidden sm:block" />
+          <img src={Logo} className="sm:ml-8 hidden sm:block" alt='logo'/>
           <p className="text-2xl font-bold hidden md:block mx-auto sm:mr-auto sm:ml-8 mt-[30px]">
             Welcome Back!
           </p>
