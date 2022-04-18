@@ -1,20 +1,16 @@
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+
 import AuthLayout from "../layouts/AuthLayout";
 import Image from "../assets/authbg.svg";
 import Logo from "../logo.svg";
-import React, { useState } from "react";
 import Button from "./base/Button";
-import { useNavigate } from "react-router-dom";
-import AuthService from "../services/auth.service";
-
-import { useDispatch } from "react-redux";
 import { getUser } from "../features/userSlice";
+import AuthService from "../services/auth.service";
+import { Error } from "../interfaces/global";
 
 const client = new AuthService();
-
-interface Error {
-  error: boolean;
-  style: React.CSSProperties;
-}
 
 const leftPanelStyle = {
   width: "100%",
@@ -29,7 +25,6 @@ const leftPanelStyle = {
   alignItems: "center",
 };
 
-
 const Login: React.FC = () => {
   const navigate = useNavigate();
 
@@ -43,7 +38,7 @@ const Login: React.FC = () => {
   const handlePassword = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setPassword(e.target.value);
   };
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const handleSubmit = (): void => {
     client.login(email, password).then((msg) => {
       if (msg.error) {
@@ -59,14 +54,18 @@ const Login: React.FC = () => {
   return (
     <AuthLayout>
       <div className="h-screen flex font-sans md:flex-col sm:overflow-hidden">
-        <img src={Logo} className="md:mx-auto sm:mr-auto sm:ml-8 hidden md:block mt-[80px] sm:hidden" alt='logo'/>
+        <img
+          src={Logo}
+          className="md:mx-auto sm:mr-auto sm:ml-8 hidden md:block mt-[80px] sm:hidden"
+          alt="logo"
+        />
         <p className="text-2xl font-bold hidden md:block mx-auto mt-[40px] sm:ml-8 sm:hidden">
           Welcome Back!
         </p>
         <div className="my-auto md:mt-[36px] flex w-full justify-center">
           {/* Left Panel */}
           <div style={leftPanelStyle} className="md:hidden flex">
-            <img src={Logo} className="scale-150" alt='logo'/>
+            <img src={Logo} className="scale-150" alt="logo" />
           </div>
           {/* Right Panel */}{" "}
           <div className="w-[425px] min-w-[300px] bg-white p-16 sm:p-8">
@@ -120,7 +119,10 @@ const Login: React.FC = () => {
               />
               <div className="flex flex-col items-center">
                 <p className="text-sm  text-gray-100">New to scratch?</p>
-                <p className="text-green text-base font-bold"> Create account here</p>
+                <p className="text-green text-base font-bold">
+                  {" "}
+                  Create account here
+                </p>
               </div>
             </div>
           </div>
@@ -129,6 +131,5 @@ const Login: React.FC = () => {
     </AuthLayout>
   );
 };
-
 
 export default Login;

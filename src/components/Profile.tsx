@@ -1,30 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
-import { DotIcon } from "../assets";
+import { DotIcon, HeartIcon } from "../assets";
 import { formatNumbers, timeSince } from "../utils/format";
 import { userAPI } from "../services/user.service";
 import { useSelector } from "react-redux";
 import useMediaQuery from "../hooks/useMediaQuery";
+import {IUser, IPost} from "../interfaces/global"
 type Link = string;
-interface IProps {
-  avatar: string;
-  id: number;
-  first_name: string;
-  last_name: string;
-  job_title: string;
-  followers: string;
-  posts: string;
-  password: string;
-  email: string;
-  post_ID: string;
-  likes: string;
-}
-interface Post {
-  id: number;
-  title: string;
-  body: string;
-  time: number;
-  image: Link;
-}
+
+
 
 const NumberOf: React.FC<{ nr: number; label: string }> = ({ nr, label }) => {
   return (
@@ -35,7 +18,7 @@ const NumberOf: React.FC<{ nr: number; label: string }> = ({ nr, label }) => {
   );
 };
 
-const RecipeCardMobile: React.FC<{ recipe: Post; user: IProps }> = ({
+const RecipeCardMobile: React.FC<{ recipe: IPost; user: IUser }> = ({
   recipe,
   user,
 }) => {
@@ -65,8 +48,11 @@ const RecipeCardMobile: React.FC<{ recipe: Post; user: IProps }> = ({
           <p className="text-xs text-gray-50">{timeSince(recipe.time)}</p>
         </div>
       </div>
+        <div className='flex justify-between'> 
         <p className="text-lg font-semibold"> {recipe.title}</p>
-        <p className="overflow-hidden line-clamp-2 overflow-ellipsis  profile:text-sm text-gray-70">
+        <img src={HeartIcon} alt='like' />
+        </div>
+        <p className="overflow-hidden line-clamp-2 overflow-ellipsis  profile:text-sm text-gray-70 mt-2.5">
           {" "}
           {recipe.body}{" "}
         </p>
@@ -83,7 +69,7 @@ const RecipeCardMobile: React.FC<{ recipe: Post; user: IProps }> = ({
   );
 };
 
-const RecipeCard: React.FC<{ recipe: Post; user: IProps }> = ({
+const RecipeCard: React.FC<{ recipe: IPost; user: IUser }> = ({
   recipe,
   user,
 }) => {
@@ -137,7 +123,7 @@ const Profile: React.FC = () => {
   const isMobile = useMediaQuery('(max-width:640px)')
   //@ts-ignore
   const user = useSelector((state) => state.user.user);
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [posts, setPosts] = useState<IPost[]>([]);
   const ref = useRef(null);
   useEffect(() => {
     if (localStorage.logged) {
@@ -202,7 +188,7 @@ const Profile: React.FC = () => {
   );
 };
 
-const MobileRecipe = ({posts, user}:{ posts: Post[], user: any }) => {
+const MobileRecipe = ({posts, user}:{ posts: IPost[], user: IUser }) => {
   return (
     <div
           className="w-full max-w-[600px] profile:min-w-fit min-w-[600px] transition-all duration-500"

@@ -1,3 +1,4 @@
+type Link = string;
 export interface IUser {
   avatar: string;
   id: number;
@@ -11,3 +12,15 @@ export interface IUser {
   post_ID: string;
   likes: string;
 }
+export interface IPost {
+  id: number;
+  title: string;
+  body: string;
+  time: number;
+  image: Link;
+}
+export interface Error {
+  error: boolean;
+  style: React.CSSProperties;
+}
+

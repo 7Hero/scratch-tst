@@ -9,10 +9,7 @@ import Profile from "./components/Profile";
 import _ from './utils/main';
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "./features/userSlice";
-
 _();
-
-
 
 const App: React.FC = () => {
   const dispatch = useDispatch()
