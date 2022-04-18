@@ -39,15 +39,6 @@ const RecipeCardMobile: React.FC<{ recipe: IPost; user: IUser }> = ({
       <img alt='Recipe' src={recipe.image} className="h-44 w-full object-cover" />
       {/* Everthing else */}
       <div className="p-5 profile:px-5 profile:py-0">
-      <div className="p-4 profile:px-0 space-x-2 hidden profile:flex">
-        <img alt='' src={user.avatar} className="h-[32px] rounded-full" />
-        <div>
-          <p className="text-xs text-black">
-            {user.first_name + " " + user.last_name}
-          </p>
-          <p className="text-xs text-gray-50">{timeSince(recipe.time)}</p>
-        </div>
-      </div>
         <div className='flex justify-between'> 
         <p className="text-lg font-semibold"> {recipe.title}</p>
         <img src={HeartIcon} alt='like' />
