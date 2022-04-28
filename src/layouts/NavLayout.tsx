@@ -7,8 +7,8 @@ interface IProps {
 const NavLayout: React.FC<IProps> = ({user}) => {
 
   return (
-    <div style={{backgroundColor:'#F7F8FA', height:'100vh'}}>
-      <Navbar user={user} />
+    <div className='profile:bg-white bg-[#F7F8FA]' style={{height:'100vh'}}>
+      <Navbar />
       <div>
         <Outlet/>
       </div>

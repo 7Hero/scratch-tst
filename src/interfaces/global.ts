@@ -1,4 +1,5 @@
 type Link = string;
+
 export interface IUser {
   avatar: string;
   id: number;

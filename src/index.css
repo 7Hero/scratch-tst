@@ -10,11 +10,14 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  scrollbar-gutter: stable both-edges;
+  /*scrollbar-gutter: stable both-edges;*/
 }
 
-html {
-  scrollbar-gutter: stable;
+/*html {*/
+/*  scrollbar-gutter: stable;*/
+/*}*/
+@media (max-width: 885px) {
+
 }
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",

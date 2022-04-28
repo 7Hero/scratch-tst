@@ -8,18 +8,18 @@ import Login from "./components/Login";
 import Profile from "./components/Profile";
 import _ from './utils/main';
 import { useDispatch, useSelector } from "react-redux";
-import { getUser } from "./features/userSlice";
+import { setUser } from "./features/userSlice";
 _();
 
 const App: React.FC = () => {
   const dispatch = useDispatch()
-  //@ts-ignore
-  const user = useSelector(state => state.user)
+  const user = useSelector((state: any) => state.user)
   useEffect(()=> {
     if(localStorage.logged){
-      dispatch(getUser())
+      dispatch(setUser())
     }
   },[dispatch])
+
   return (
     <div className="App font-sans sm:bg-white">
       <Routes>
@@ -27,7 +27,7 @@ const App: React.FC = () => {
         <Route path="login" element={<Login />} />
         <Route path="profile" element={<PrivateRoute element={<NavLayout user={user} />} />}>
           {/*@ts-ignore */}
-          {user ? <Route index element={<Profile user={user} />} /> : null }
+          {user && <Route index element={<Profile user={user} />} />}
         </Route>
       </Routes>
     </div>

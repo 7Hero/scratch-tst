@@ -3,16 +3,14 @@ import Logo from "../logo.svg";
 import Search from "../assets/search.svg";
 import { MessageIcon, RecipeIcon } from "../assets";
 import useMediaQuery from "../hooks/useMediaQuery";
+import {useSelector} from "react-redux";
 
-interface IProps {
-  user: any;
-}
-const Navbar: React.FC<IProps> = () => {
+
+const Navbar: React.FC = () => {
 
   const isMobile = useMediaQuery('(max-width:540px)');
+  const user = useSelector((state: any) => state.user.data);
 
-  const user = JSON.parse(localStorage.logged)
-  
   return (
     <>
       {isMobile ? <NavbarMobile/> : 

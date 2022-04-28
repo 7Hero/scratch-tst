@@ -1,18 +1,26 @@
 import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
- user: {}
+ data: {}
 }
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    getUser: (state) => {
-      state.user = JSON.parse(localStorage.logged)
+    setUser: (state) => {
+      let users = localStorage.getItem('users');
+      const user_id = localStorage.getItem('logged');
+      if(users) {
+        users = JSON.parse(users);
+        state.data = users[user_id];
+      }
+    },
+    setCardsLoaded: (state) => {
+      state.data.posts_loaded+=2;
     }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { getUser } = userSlice.actions
+export const { setUser, setCardsLoaded } = userSlice.actions
 
 export default userSlice.reducer 

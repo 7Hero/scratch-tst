@@ -2,12 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import { DotIcon, HeartIcon } from "../assets";
 import { formatNumbers, timeSince } from "../utils/format";
 import { userAPI } from "../services/user.service";
-import { useSelector } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import useMediaQuery from "../hooks/useMediaQuery";
-import {IUser, IPost} from "../interfaces/global"
+import {IUser, IPost} from "../interfaces/global";
+import { setCardsLoaded} from "../features/userSlice";
+
 type Link = string;
-
-
 
 const NumberOf: React.FC<{ nr: number; label: string }> = ({ nr, label }) => {
   return (
@@ -112,19 +112,24 @@ const client = userAPI();
 
 const Profile: React.FC = () => {
   const isMobile = useMediaQuery('(max-width:640px)')
-  //@ts-ignore
-  const user = useSelector((state) => state.user.user);
+  const user = useSelector((state: any) => state.user.data);
   const [posts, setPosts] = useState<IPost[]>([]);
-  const ref = useRef(null);
+  const ref = useRef<any>(null);
+  const dispatch = useDispatch();
   useEffect(() => {
-    if (localStorage.logged) {
-      const usr = JSON.parse(localStorage.logged);
-      client.getUserPosts(usr.post_ID).then(({ data }) => setPosts(data.posts));
+    if(Object.keys(user).length !== 0) {
+      client.getUserPosts(user.post_ID).then(({ data }) => setPosts(data.posts));
     }
-  }, []);
+    ref.current.scrollIntoView({ behavior: "smooth"});
 
+    let users: any = localStorage.getItem('users');
+    users = JSON.parse(users);
+    users[user.id] = user;
+    console.log(users);
+    localStorage.setItem('users', JSON.stringify(users));
+  }, [user]);
   return (
-    <div className="mt-[50px] profile:mt-0 px-24 profile:px-0">
+    <div className="mt-[50px] profile:mt-0 px-24 profile:px-0 profile:bg-white bg-none">
       <div className="flex gap-5 justify-center ">
         <div className="profile:hidden" style={{}}>
           <div
@@ -159,34 +164,37 @@ const Profile: React.FC = () => {
           </div>
         </div>
         {/* Recipes */}
-        {/* @ts-ignore */}
-        {
-        isMobile ? <MobileRecipe posts={posts} user={user} /> : 
         <div
-          className="w-full max-w-[600px] profile:min-w-fit min-w-[600px] transition-all duration-500"
+          className="w-full profile:shadow-none max-w-[600px] profile:min-w-fit min-w-[600px] transition-all duration-500"
           style={{ opacity: posts.length !== 0 ? "1" : "0" }}
         >
-          <div className="w-full p-6 bg-white space-y-5 rounded-lg profile:rounded-none transition-all btn-shadow sm:filter-none">
-            {posts?.splice(0, 14).map((el) => {
+        {
+        isMobile ? <MobileRecipe posts={posts} user={user} /> :
+          <div className="w-full p-6 bg-white space-y-5 rounded-lg profile:rounded-none transition-all sm:filter-none">
+            {posts?.slice(0, user.posts_loaded ).map((el) => {
               return <RecipeCard user={user} recipe={el} key={el.id} />;
             })}
           </div>
-        </div>
         }
+          <button ref={ref} className=' bg-white py-3 px-6 rounded-md shadow profile:shadow-none font-bold my-6 w-full' onClick={(e)=> {
+            dispatch(setCardsLoaded());
+          }}> Load more</button>
+
+        </div>
         <div className="min-w-0  w-full max-w-[310px] profile:hidden"></div>
       </div>
     </div>
   );
 };
 
-const MobileRecipe = ({posts, user}:{ posts: IPost[], user: IUser }) => {
+const MobileRecipe = ({posts, user}:{ posts: IPost[], user: any }) => {
   return (
     <div
           className="w-full max-w-[600px] profile:min-w-fit min-w-[600px] transition-all duration-500"
           style={{ opacity: posts.length !== 0 ? "1" : "0" }}
         >
-          <div className="w-full p-6 bg-white space-y-5 transition-all btn-shadow sm:filter-none">
-            {posts?.splice(0, 14).map((el) => {
+          <div className="profile:shadow-none w-full p-6 bg-white space-y-5 transition-all sm:filter-none">
+            {posts?.slice(0, user.posts_loaded).map((el) => {
               return <RecipeCardMobile user={user} recipe={el} key={el.id} />;
             })}
           </div>

@@ -6,7 +6,7 @@ import AuthLayout from "../layouts/AuthLayout";
 import Image from "../assets/authbg.svg";
 import Logo from "../logo.svg";
 import Button from "./base/Button";
-import { getUser } from "../features/userSlice";
+import { setUser } from "../features/userSlice";
 import AuthService from "../services/auth.service";
 import { Error } from "../interfaces/global";
 
@@ -41,13 +41,16 @@ const Login: React.FC = () => {
   const dispatch = useDispatch();
   const handleSubmit = (): void => {
     client.login(email, password).then((msg) => {
-      if (msg.error) {
-        setError({ error: true, style: { color: "red", borderColor: "red" } });
-      } else {
-        localStorage.logged = JSON.stringify(msg.data);
-        dispatch(getUser());
-        navigate("/profile");
-      }
+    if (msg.error) {
+      setError({ error: true, style: { color: "red", borderColor: "red" } });
+      return
+    }
+    localStorage.logged = JSON.stringify(msg.data.id);
+    let user = { [msg.data.id]: {...msg.data, posts_loaded: 2} };
+    delete user[msg.data.id].password;
+    localStorage.setItem( "users", JSON.stringify(user));
+    dispatch(setUser());
+    navigate("/profile");
     });
   };
 
