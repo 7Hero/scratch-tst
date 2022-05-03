@@ -121,9 +121,7 @@ const Profile: React.FC = () => {
     let users: any = localStorage.getItem('users');
     let tempUser = {...user,posts_loaded:user.posts_loaded+2}
     users = JSON.parse(users);
-    console.log(users);
     Object.assign(users, {[tempUser.id]: tempUser});
-    console.log(users);
     localStorage.setItem("users", JSON.stringify(users));
   }
 
