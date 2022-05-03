@@ -46,9 +46,14 @@ const Login: React.FC = () => {
       return
     }
     localStorage.logged = JSON.stringify(msg.data.id);
-    let user = { [msg.data.id]: {...msg.data, posts_loaded: 2} };
-    delete user[msg.data.id].password;
-    localStorage.setItem( "users", JSON.stringify(user));
+    let users: any = localStorage.getItem('users');
+    users = JSON.parse(users);
+    if(users[msg.data.id] === undefined){
+      let user: any = { [msg.data.id]: {...msg.data, posts_loaded: 2} };
+      delete user[msg.data.id].password;
+      Object.assign(users, user);
+      localStorage.setItem( "users", JSON.stringify(users));
+    }
     dispatch(setUser());
     navigate("/profile");
     });

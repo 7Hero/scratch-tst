@@ -7,8 +7,6 @@ import useMediaQuery from "../hooks/useMediaQuery";
 import {IUser, IPost} from "../interfaces/global";
 import { setCardsLoaded} from "../features/userSlice";
 
-type Link = string;
-
 const NumberOf: React.FC<{ nr: number; label: string }> = ({ nr, label }) => {
   return (
     <div>
@@ -108,6 +106,7 @@ const RecipeCard: React.FC<{ recipe: IPost; user: IUser }> = ({
     </div>
   );
 };
+
 const client = userAPI();
 
 const Profile: React.FC = () => {
@@ -116,18 +115,25 @@ const Profile: React.FC = () => {
   const [posts, setPosts] = useState<IPost[]>([]);
   const ref = useRef<any>(null);
   const dispatch = useDispatch();
+
+  const handleLoadMore = (e: any)=> {
+    dispatch(setCardsLoaded());
+    let users: any = localStorage.getItem('users');
+    let tempUser = {...user,posts_loaded:user.posts_loaded+2}
+    users = JSON.parse(users);
+    console.log(users);
+    Object.assign(users, {[tempUser.id]: tempUser});
+    console.log(users);
+    localStorage.setItem("users", JSON.stringify(users));
+  }
+
   useEffect(() => {
     if(Object.keys(user).length !== 0) {
       client.getUserPosts(user.post_ID).then(({ data }) => setPosts(data.posts));
     }
     ref.current.scrollIntoView({ behavior: "smooth"});
-
-    let users: any = localStorage.getItem('users');
-    users = JSON.parse(users);
-    users[user.id] = user;
-    console.log(users);
-    localStorage.setItem('users', JSON.stringify(users));
   }, [user]);
+
   return (
     <div className="mt-[50px] profile:mt-0 px-24 profile:px-0 profile:bg-white bg-none">
       <div className="flex gap-5 justify-center ">
@@ -176,9 +182,7 @@ const Profile: React.FC = () => {
             })}
           </div>
         }
-          <button ref={ref} className=' bg-white py-3 px-6 rounded-md shadow profile:shadow-none font-bold my-6 w-full' onClick={(e)=> {
-            dispatch(setCardsLoaded());
-          }}> Load more</button>
+          <button ref={ref} className=' bg-white py-3 px-6 rounded-md shadow profile:shadow-none font-bold my-6 w-full' onClick={handleLoadMore}> Load more</button>
 
         </div>
         <div className="min-w-0  w-full max-w-[310px] profile:hidden"></div>
